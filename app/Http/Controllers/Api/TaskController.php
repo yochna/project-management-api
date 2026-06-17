@@ -9,14 +9,20 @@ use App\Http\Resources\TaskResource;
 use App\Models\Project;
 use App\Models\Task;
 use App\Services\TaskService;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class TaskController extends Controller
 {
+    use AuthorizesRequests;
+
     public function __construct(protected TaskService $service) {}
 
     public function index(Project $project)
     {
-        $tasks = $this->service->getTasksForProject($project, request()->only('status', 'assigned_to', 'due_date'));
+        $tasks = $this->service->getTasksForProject(
+            $project,
+            request()->only('status', 'assigned_to', 'due_date')
+        );
         return TaskResource::collection($tasks);
     }
 

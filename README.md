@@ -1,17 +1,18 @@
-# Project Management System — API + Admin Panel
+# Project Management System - API + Admin Panel
 
-A RESTful API and Admin Panel built with Laravel 13 + Sanctum for managing projects and tasks.
+A RESTful API and Admin Panel built with Laravel 13 + Sanctum.
 
 ## Tech Stack
 - Laravel 13
 - Laravel Sanctum (API Token Auth)
 - SQLite
 - Blade + Bootstrap 5 (Admin Panel)
+- PHPUnit (16 tests passing)
 
 ## Setup Instructions
 
-git clone https://github.com/yochna/laravel
-cd laravel
+git clone https://github.com/yochna/project-management-api
+cd project-management-api
 composer install
 cp .env.example .env
 php artisan key:generate
@@ -19,38 +20,29 @@ touch database/database.sqlite
 php artisan migrate
 php artisan serve
 
-## API Authentication
-
-All protected routes require these headers:
-Authorization: Bearer <token>
-Accept: application/json
-Content-Type: application/json
-
 ## API Endpoints
 
 ### Auth
-POST   /api/register       Register new user
-POST   /api/login          Login
-POST   /api/logout         Logout (auth required)
+POST   /api/register
+POST   /api/login
+POST   /api/logout
 
 ### Projects
-GET    /api/projects               List all projects
-POST   /api/projects               Create project
-GET    /api/projects/{id}          Show project with tasks
-PUT    /api/projects/{id}          Update project (owner only)
-DELETE /api/projects/{id}          Delete project (owner only)
+GET    /api/projects
+POST   /api/projects
+GET    /api/projects/{id}
+PUT    /api/projects/{id}
+DELETE /api/projects/{id}
 
 ### Tasks
-GET    /api/projects/{id}/tasks               List tasks
-POST   /api/projects/{id}/tasks               Create task
-GET    /api/projects/{id}/tasks/{taskId}      Show task
-PUT    /api/projects/{id}/tasks/{taskId}      Update task
-DELETE /api/projects/{id}/tasks/{taskId}      Delete task
+GET    /api/projects/{id}/tasks
+POST   /api/projects/{id}/tasks
+GET    /api/projects/{id}/tasks/{taskId}
+PUT    /api/projects/{id}/tasks/{taskId}
+DELETE /api/projects/{id}/tasks/{taskId}
 
 ### Task Filters
-?status=pending
-?status=in-progress
-?status=completed
+?status=pending|in-progress|completed
 ?assigned_to={user_id}
 ?due_date=YYYY-MM-DD
 
@@ -60,16 +52,16 @@ DELETE /api/projects/{id}/tasks/{taskId}      Delete task
 - Only project owner can delete a task
 
 ## Admin Panel
-Visit /admin/login in the browser and login with any registered user credentials.
+Visit /admin/login in browser.
+Login with any registered user credentials.
+Features: Dashboard, Projects, Tasks, Users
 
-Features:
-- Dashboard with stats
-- Users list
-- Projects list
-- Tasks list with filters
+## Tests
+php artisan test
+16 tests, 36 assertions - all passing
 
 ## Assumptions
 - All authenticated users can view all projects and tasks
-- Tasks are scoped under their parent project
+- Tasks scoped under parent project
 - Admin panel uses session auth, API uses token auth
 - Tokens do not expire by default
